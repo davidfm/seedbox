@@ -1,9 +1,7 @@
 ---
 - name: "Create user: {{ user.username }} "
   user:
-    name: "{{ user.name }}"
-    groups: "{{ user.groups }}"
-    append: true
+    name: "{{ user.username }}"
 
 - name: "{{ user.username }} ssh directory"
   file:
