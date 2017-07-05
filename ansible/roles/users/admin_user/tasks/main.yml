@@ -1,6 +1,3 @@
-- debug:
-    msg: "{{ admin_user.username }}"
-
 - name: "Enable sudo access"
   copy:
     dest: "/etc/sudoers.d/99-{{ admin_user.username }}"
