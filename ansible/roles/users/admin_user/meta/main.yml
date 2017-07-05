@@ -1,0 +1,8 @@
+---
+galaxy_info:
+  author: David Fernandez
+
+dependencies:
+  - { role: users/limited_user,
+      user: "{{ admin_user }}"
+      }

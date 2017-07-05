@@ -1,0 +1,10 @@
+- debug:
+    msg: "{{ admin_user.username }}"
+
+- name: "Enable sudo access"
+  copy:
+    dest: "/etc/sudoers.d/99-{{ admin_user.username }}"
+    content: "{{ admin_user.username }} ALL=(ALL) NOPASSWD: ALL"
+    owner: root
+    group: root
+    mode: "0440"
