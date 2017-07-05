@@ -1,0 +1,36 @@
+---
+- name: "Create user: {{ user.username }} "
+  user:
+    name: "{{ user.name }}"
+    groups: "{{ user.groups }}"
+    append: true
+
+- name: "{{ user.username }} ssh directory"
+  file:
+    path: "/home/{{ user.username }}/.ssh"
+    state: directory
+    owner: "{{ user.username }}"
+    group: "{{ user.username }}"
+    mode: "0700"
+
+- name: "Checking if the authorized keys file exists"
+  stat:
+    path: "/home/{{ user.username }}/.ssh/authorized_keys"
+  register: auth_keys_stat
+
+- name: "Create authorized keys file"
+  file:
+    path: "/home/{{ user.username }}/.ssh/authorized_keys"
+    state: touch
+    owner: "{{ user.username }}"
+    group: "{{ user.username }}"
+    mode: "0600"
+  when: auth_keys_stat.stat.exists == False
+
+- name: "Add authorized_keys"
+  lineinfile:
+    dest: "/home/{{ user.username }}/.ssh/authorized_keys"
+    line: "{{ item }}"
+  with_items: "{{user.authorized_keys | default ([]) }}"
+
+
