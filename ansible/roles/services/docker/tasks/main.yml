@@ -1,0 +1,2 @@
+- include: uninstall_old_versions.yml
+- include: install_docker.yml

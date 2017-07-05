@@ -1,0 +1,16 @@
+- name: Add Docker repo
+  yum_repository:
+    name: "{{ docker_repo.name }}"
+    baseurl: "{{ docker_repo.baseurl }}"
+    description: "{{ docker_repo.description }}"
+    gpgcheck: "{{ docker_repo.gpgcheck }}"
+    gpgkey: " {{docker_repo.gpgkey }}"
+
+- name: Install Docker package
+  package:
+    name: "{{ docker_package }}"
+
+- name: Start Docker
+  service:
+    name: docker
+    state: started

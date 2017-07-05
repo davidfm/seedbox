@@ -1,0 +1,9 @@
+- name: Uninstall old versions
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-common
+    - dokcer-selinux
+    - docker-engine
