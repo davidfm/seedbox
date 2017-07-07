@@ -1,0 +1,25 @@
+--
+- name: "Check if certificate already exists"
+  stat:
+    path: "/etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/"
+  register: certs_directory
+
+- name: "Generate SSL certs for  {{ site.subdomain }}"
+  docker_container:
+    name: certbot
+    image: "{{ certbot_image_name }}:{{ certbot_image_version }}"
+    command: "certonly --standalone --non-interactive --agree-tos --email {{ my_email }} -d {{ site.subdomain }}.{{ domain }}"
+    ports:
+     - "443:443"
+    volumes:
+      - "/opt/dockerapps/{{ instance_name }}/letsencrypt/:/etc/letsencrypt/"
+  when: !certs_directory.stat.exists
+
+- name: Delete container used to generate certs
+  docker_container:
+    name: certbot
+    state: absent
+  when: !certs_directory.stat.exists
+
+
+
