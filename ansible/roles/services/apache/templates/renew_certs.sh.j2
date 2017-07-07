@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+service stop {{ instance_name }}
+sleep 5
+docker run -i --rm --name certbot -p 443:443  -v /opt/dockerapps/{{ instance_name }}/letsencrypt:/etc/letsencrypt/ {{ certbot_image_name }}:{{ certbot_image_version }} renew
+sleep 5
+service start {{ instance_name }}

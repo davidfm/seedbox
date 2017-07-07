@@ -1,0 +1,15 @@
+- name: "Generate script to renew certificates"
+  template:
+    src: renew_certs.sh.js
+    dest: "/opt/dockerapps/{{ instance_name }}/renew_certs.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "Add cron job"
+  cron:
+    name: "Renew SSL certificates"
+    minute: 0
+    hour: 5
+    user: root
+    job: "/opt/dockerapps/{{ instance_name }}/renew_certs.sh"
