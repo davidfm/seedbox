@@ -1,0 +1,36 @@
+- name: Add Plex repo
+  yum_repository:
+    name: "{{ plex_repo.name }}"
+    baseurl: "{{ plex_repo.baseurl }}"
+    description: "{{ plex_repo.description }}"
+    gpgcheck: "{{ plex_repo.gpgcheck }}"
+    gpgkey: "{{ plex_repo.gpgkey }}"
+
+- name: Install Docker package
+  package:
+    name: "{{ plex_package }}"
+
+- name: Replace service file
+  template:
+    src: plexmediaserver.service.j2
+    dest: /usr/lib/systemd/system/plexmediaserver.service
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+
+- name: Reload sytemctl daemon
+  shell: "systemctl daemon-reload"
+
+- name: "Create tmp directory"
+  file:
+    path: "/home/{{ media_user.username }}/plex_tmp"
+    state: directory
+    owner: "{{ media_user.username }}"
+    group: "{{ media_user.username }}"
+    mode: "0755"
+
+- name: Start Plex
+  service:
+    name: "{{ plex_package }}"
+    state: restarted

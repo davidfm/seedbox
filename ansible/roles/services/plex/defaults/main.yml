@@ -1,0 +1,12 @@
+plex_package: plexmediaserver
+
+plex_repo:
+  name: PlexRepo
+  baseurl: https://downloads.plex.tv/repo/rpm/$basearch/
+  description: Plex Media Server
+  gpgcheck: yes
+  gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+
+service_file_values:
+  - { regex: ^Environment=PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=*,
+      new_value: Environment="PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/home/multimedia/plexmediaserver/Library/Application Support" }
