@@ -2,6 +2,6 @@
 common_user: {
 username: multimedia,
 group: multimedia,
-uid: 2500,
-gid: 2500,
+uid: 911,
+gid: 911,
 }
