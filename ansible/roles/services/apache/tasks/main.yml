@@ -1,3 +1,4 @@
+- include: stop.yml
 - include: install_apache.yml
 - include: install_lets_encrypt.yml
 - include: generate_certificate.yml
