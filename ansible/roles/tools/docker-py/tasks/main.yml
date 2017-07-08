@@ -1,4 +1,4 @@
 - name: Install docker-py
   pip:
     name: docker-py
-    version: {{ docker_py_version }}
+    version: "{{ docker_py_version }}"
