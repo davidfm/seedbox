@@ -9,7 +9,7 @@
 
 - name: Manage htpasswd users
   htpasswd:
-    path: "/opt/dockerapps/{{ instance_name }}/htpasswd/.htpasswd_{{ site.subdomain }}"
+    path: "/opt/dockerapps/{{ instance_name }}/.htpasswd/htpasswd_{{ site.subdomain }}"
     name: "{{ user.username }}"
     password: "{{ user.password }}"
   with_items: "{{ site.htpasswd_users | default ([]) }}"

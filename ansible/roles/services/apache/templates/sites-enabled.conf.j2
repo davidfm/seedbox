@@ -18,7 +18,7 @@
 	    AuthType Basic
 	    AuthName {{ site.subdomain }}
 {% if "htpasswd" == site.auth %}
-            AuthUserFile htpasswd/.htpasswd_{{ site.subdomain }}
+            AuthUserFile .htpasswd/htpasswd_{{ site.subdomain }}
 {% endif %}
 	    Require valid-user
     </Location>
