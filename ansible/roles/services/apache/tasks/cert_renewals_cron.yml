@@ -1,6 +1,6 @@
 - name: "Generate script to renew certificates"
   template:
-    src: renew_certs.sh.js
+    src: renew_certs.sh.j2
     dest: "/opt/dockerapps/{{ instance_name }}/renew_certs.sh"
     owner: root
     group: root
