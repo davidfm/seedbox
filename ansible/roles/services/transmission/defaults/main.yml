@@ -1,6 +1,6 @@
 transmission_image_name: linuxserver/transmission
 transmission_image_version: latest
-instance_name: tranmission
+instance_name: transmission
 
 rpc_bind_address: 172.17.0.1
 rpc_port: 9091
