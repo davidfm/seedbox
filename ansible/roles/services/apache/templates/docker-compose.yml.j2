@@ -1,0 +1,14 @@
+##############MANAGED BY ANSIBLE, DO NOT CHANGE##############
+version: '2'
+services:
+  apache:
+    container_name: {{ instance_name }}
+    image: {{ apache_image_name }}:{{ apache_image_version }}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /opt/dockerapps/{{ instance_name }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro,z
+      - /opt/dockerapps/{{ instance_name }}/sites-enabled/:/usr/local/apache2/conf/sites-enabled/:ro,z
+      - /opt/dockerapps/{{ instance_name }}/letsencrypt/:/etc/letsencrypt/:ro,z
+      - /opt/dockerapps/{{ instance_name }}/htpasswd/:/usr/local/apache2/htpasswd/:ro,z
