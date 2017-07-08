@@ -20,6 +20,3 @@
     name: certbot
     state: absent
   when: !certs_directory.stat.exists
-
-
-
