@@ -1,0 +1,2 @@
+[seedbox]
+stark ansible_host="{{ domain }}"
