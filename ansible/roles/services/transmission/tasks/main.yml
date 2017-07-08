@@ -5,21 +5,23 @@
 
 - name: "Create directories"
   file:
-    name: "{{ item }}"
+    name: "{{ item.path }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ item.username }}"
+    group: "{{ item.user_group }}"
     mode: '0755'
   with_items:
-    - /opt/dockerapps
-    - "/opt/dockerapps/{{ instance_name }}/"
+    - { username: root, user_group: root, path: /opt/dockerapps }
+    - { username: root, user_group: root, path: "/opt/dockerapps/{{ instance_name }}/" }
+    - { username: "{{ user.username }}", user_group: "{{ user.group }}", path: "/multimedia/{{ instance_name }}" }
+    - { username: "{{ user.username }}", user_group: "{{ user.group }}", path: "/multimedia/{{ instance_name }}/config" }
 
 - name: Copy config file
   template:
     src: settings.json.j2
-    dest: "/opt/dockerapps/{{ instance_name }}/settings.json"
-    owner: root
-    group: root
+    dest: "/multimedia/{{ instance_name }}/settings.json"
+    owner: "{{ user.username }}"
+    group: "{{ user.group }}"
     mode: '0755'
 
 - name: Add docker-compose

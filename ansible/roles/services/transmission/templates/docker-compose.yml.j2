@@ -7,10 +7,11 @@ services:
       - {{ peer_port }}:51413
       - {{ peer_port }}:51313/udp
     volumes:
-      - /opt/dockerapps/{{ instance_name }}/settings.json:/config/settings.json:ro,z
+      - /multimedia/{{ instance_name }}/settings.json:/config/settings.json:z
+      - /multimedia/{{ instance_name }}/config/:/config/:z
       - {{ multimedia_directory }}:{{ multimedia_directory }}:z
     environment:
       - e TZ={{ timezone }}
-      - e UID={{ uid }}
-      - e GID={{ gid }}
+      - e PUID={{ user.uid }}
+      - e PGID={{ user.gid }}
     network_mode: bridge
