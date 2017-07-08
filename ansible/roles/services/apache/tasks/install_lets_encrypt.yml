@@ -1,0 +1,14 @@
+- name: "Pull {{ certbot_image_name }}:{{ certbot_image_version }}"
+  docker_image:
+    name: "{{ certbot_image_name }}"
+    tag: "{{ certbot_image_version }}"
+
+- name: "Create directories"
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - "/opt/dockerapps/{{ instance_name }}/letsencrypt"
