@@ -24,10 +24,10 @@
 
 - name: "Create tmp directory"
   file:
-    path: "/home/{{ media_user.username }}/plex_tmp"
+    path: "/multimedia/plex_tmp"
     state: directory
-    owner: "{{ media_user.username }}"
-    group: "{{ media_user.username }}"
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: "0755"
 
 - name: Start Plex
