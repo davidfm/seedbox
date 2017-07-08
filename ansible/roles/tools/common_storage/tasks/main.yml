@@ -1,0 +1,16 @@
+- name: "Create directories"
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: '0755'
+  with_items:
+    - /multimedia
+    - /multimedia/data
+    - /multimedia/data/torrents
+    - /multimedia/data/torrents/managed
+    - /multimedia/data/torrents/manual
+    - /multimedia/data/torrents/incomplete
+    - /multimedia/data/library/Movies
+    - /multimedia/data/library/TVShows
