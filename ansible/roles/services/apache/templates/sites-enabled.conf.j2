@@ -6,7 +6,7 @@
     SSLEngine On
     SSLCertificateFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/cert.pem
     SSLCertificateKeyFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/privkey.pem
-    SSLCertificateChainFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/fullchain.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/chain.pem
     ProxyTimeout 120
     ProxyPass / http://{{ site.dest }}:{{ site.dest_port }}/ retry=0
     ProxyPassReverse / http://{{ site.dest }}:{{ site.dest_port }}/
