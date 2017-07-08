@@ -1,0 +1,10 @@
+transmission_image_name: linuxserver/transmission
+transmission_image_version: latest
+instance_name: tranmission
+
+rpc_bind_address: 172.17.0.1
+rpc_port: 9091
+peer_port: 51413
+
+
+multimedia_directory: /multimedia/data

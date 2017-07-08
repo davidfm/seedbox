@@ -1,0 +1,13 @@
+version: '2'
+services:
+  transmission:
+    image: {{ transmission_image_name }}:{{ transmission_image_version }}
+    ports:
+      - {{ rpc_bind_address }}:{{ rpc_port }}:9091
+      - {{ peer_port }}:51413
+      - {{ peer_port }}:51313/udp
+    volumes:
+      - /opt/dockerapps/{{ instance_name }}/settings.json:/config/settings.json:ro,z
+      - {{ multimedia_directory }}:{{ multimedia_directory }}:z
+    environment:
+      - e TZ=Europe/London

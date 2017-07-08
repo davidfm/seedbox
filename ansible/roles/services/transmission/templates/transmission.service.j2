@@ -1,0 +1,12 @@
+[Unit]
+Description=Transmission
+After=network.target docker.service
+Requires=docker.service
+[Service]
+WorkingDirectory=/opt/dockerapps/{{ instance_name }}/
+ExecStartPre=-/usr/bin/docker-compose rm -f
+ExecStart=/usr/bin/docker-compose up
+ExecStartPost=/bin/echo "Waiting for Transmission started to appear on the logs"
+ExecStartPost="/bin/bash -c 'code=1; sleep 15; while read LINE; do if [[ $LINE =~ ^(.* Transmission .* started \(.*\)) ]]; then code=0; break; fi done < <(docker-compose logs -f juror_backend); exit $code'"
+ExecStop=/usr/bin/docker-compose down
+Restart=on-failure

@@ -1,0 +1,49 @@
+- name: "Pull {{ transmission_image_name }}:{{ transmission_image_version }}"
+  docker_image:
+    name: "{{ transmission_image_name }}"
+    tag: "{{ transmission_image_version }}"
+
+- name: "Create directories"
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - /opt/dockerapps
+    - "/opt/dockerapps/{{ instance_name }}/"
+
+- name: Copy config file
+  template:
+    src: settings.json.j2
+    dest: "/opt/dockerapps/{{ instance_name }}/settings.json"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Add docker-compose
+  template:
+    src: docker-compose.yml.j2
+    dest: "/opt/dockerapps/{{ instance_name }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add service file
+  template:
+    src: transmission.service.j2
+    dest: /etc/systemd/system/{{ instance_name }}.service
+    owner: root
+    group: root
+    mode: 0755
+  register: transmission_service_file
+
+- name: Reload daemon
+  shell: systemctl daemon-reload
+  when: transmission_service_file.changed
+
+- name: Start Transmission
+  service:
+    name: "{{ instance_name }}"
+    state: restarted
