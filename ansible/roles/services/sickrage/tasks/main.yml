@@ -1,0 +1,43 @@
+- name: "Pull {{ sickrage_image_name }}:{{ sickrage_image_version }}"
+  docker_image:
+    name: "{{ sickrage_image_name }}"
+    tag: "{{ sickrage_image_version }}"
+
+- name: "Create directories"
+  file:
+    name: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.username }}"
+    group: "{{ item.user_group }}"
+    mode: '0755'
+  with_items:
+    - { username: root, user_group: root, path: /opt/dockerapps }
+    - { username: root, user_group: root, path: "/opt/dockerapps/{{ instance_name }}" }
+    - { username: "{{ user.username }}", user_group: "{{ user.group }}", path: "/multimedia/{{ instance_name }}" }
+    - { username: "{{ user.username }}", user_group: "{{ user.group }}", path: "/multimedia/{{ instance_name }}/config" }
+
+- name: Add docker-compose
+  template:
+    src: docker-compose.yml.j2
+    dest: "/opt/dockerapps/{{ instance_name }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add service file
+  template:
+    src: sickrage.service.j2
+    dest: /etc/systemd/system/{{ instance_name }}.service
+    owner: root
+    group: root
+    mode: 0755
+  register: sickrage_service_file
+
+- name: Reload daemon
+  shell: systemctl daemon-reload
+  when: sickrage_service_file.changed
+
+- name: Start sickrage
+  service:
+    name: "{{ instance_name }}"
+    state: restarted

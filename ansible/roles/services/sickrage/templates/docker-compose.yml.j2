@@ -1,0 +1,14 @@
+version: '2'
+services:
+  sickrage:
+    image: {{ sickrage_image_name }}:{{ sickrage_image_version }}
+    ports:
+      - {{ bind_address }}:{{ port }}:8081
+    volumes:
+      - /multimedia/{{ instance_name }}/config:/config/:z
+      - {{ multimedia_directory }}:{{ multimedia_directory }}:z
+    environment:
+      - e TZ={{ timezone }}
+      - e PUID={{ user.uid }}
+      - e PGID={{ user.gid }}
+    network_mode: bridge
