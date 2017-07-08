@@ -1,0 +1,12 @@
+[Unit]
+Description=Apache Web Server
+After=network.target docker.service
+Requires=docker.service
+[Service]
+WorkingDirectory=/opt/dockerapps/{{ instance_name }}/
+ExecStartPre=-/usr/bin/docker-compose rm -f
+ExecStart=/usr/bin/docker-compose up
+ExecStartPost=/bin/echo "Waiting for container to start"
+ExecStartPost="/bin/bash -c "until [ \"`/usr/bin/docker inspect -f \{\{.State.Running\}\} {{ instance_name }}`\" == \"true\" ]; do sleep 1; done;"
+ExecStop=/usr/bin/docker-compose down
+Restart=on-failure
