@@ -1,0 +1,26 @@
+##############MANAGED BY ANSIBLE, DO NOT CHANGE##############
+<VirtualHost *:443>
+    ServerName {{ site.subdomain }}.{{ domain_name }}
+    ProxyRequests Off
+    ProxyPreserveHost On
+    SSLEngine On
+    SSLCertificateFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/cert.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/privkey.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/fullchain.pem
+    ProxyTimeout 120
+    ProxyPass / http://{{ site.dest }}:{{ site.dest_port }}/ retry=0
+    ProxyPassReverse / http://{{ site.dest }}:{{ site.dest_port }}/
+{% if site.extra_config is defined %}
+    {{ site.extra_config }}
+{% endif %}
+{% if site.auth is defined %}
+    <Location />
+	    AuthType Basic
+	    AuthName {{ site.subdomain }}
+{% if "htpasswd" == site.auth %}
+            AuthUserFile htpasswd/.htpasswd_{{ site.subdomain }}
+{% endif %}
+	    Require valid-user
+    </Location>
+{% endif %}
+</VirtualHost>
