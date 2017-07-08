@@ -1,12 +1,4 @@
 ---
-sites:
-  - { subdomain: "transmission",
-      dest: "172.17.0.1",
-      dest_port: "9091",
-      auth: htpasswd,
-      htpasswd_users: "{{ transmission_users }}"
-      }
-
 common_user: {
 username: multimedia,
 group: multimedia,
