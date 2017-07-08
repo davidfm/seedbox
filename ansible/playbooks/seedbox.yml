@@ -1,6 +1,10 @@
 - hosts: seedbox
 
   roles:
+
+  - { role: users/admin_user,
+      admin_user: "{{ my_admin_user }}"
+    }
   - { role: users/limited_user,
       user: "{{ common_user }}",
     }
