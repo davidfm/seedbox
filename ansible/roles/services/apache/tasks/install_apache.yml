@@ -1,0 +1,45 @@
+- name: "Pull {{ apache_image_name }}:{{ apache_image_version }}"
+  docker_image:
+    name: "{{ apache_image_name }}"
+    tag: "{{ apache_image_version }}"
+
+- name: "Create directories"
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - /opt/dockerapps
+    - "/opt/dockerapps/{{ instance_name }}/sites-enabled/"
+    - "/opt/dockerapps/{{ instance_name ]}/.htpasswd/"
+
+- name: "Add httpd config"
+  template:
+    src: httpd.conf.yml.j2
+    dest: /opt/dockerapps/{{ instance_name }}/httpd.conf
+    onwer: root
+    group: root
+    mode: '0755'
+
+- name: Add docker-compose
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/dockerapps/{{ instance_name }}/docker-compose.yml
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Add service file
+  template:
+    src: apache.service.j2
+    dest: "/etc/systemd/system/{{ instance_name }}.service"
+    owner: root
+    group: roo
+    mode: 0755
+  register: apache_service_file
+
+- name: Reload daemon
+  shell: systemctl daemon-reload
+  when: apache_service_file.changed
