@@ -1,0 +1,17 @@
+- name: Add site config
+  template:
+   src: sites-enabled.conf.j2
+   dest: "/opt/dockerapps/{{ instance_name }}/sites-enabled/{{ site.subdomain }}.conf"
+   owner: root
+   group: root
+   mode: 0644
+  when: site.config_file is not defined
+
+- name: Manage htpasswd users
+  htpasswd:
+    path: "/opt/dockerapps/{{ instance_name }}/htpasswd/.htpasswd_{{ site.subdomain }}"
+    name: "{{ user.username }}"
+    password: "{{ user.password }}"
+  with_items: "{{ site.htpasswd_users | default ([]) }}"
+  loop_control:
+    loop_var: user
