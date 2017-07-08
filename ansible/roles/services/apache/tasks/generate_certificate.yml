@@ -4,7 +4,8 @@
     path: "/opt/dockerapps/{{ instance_name }}/letsencrypt/live/{{ site.subdomain }}.{{ domain }}/"
   register: certs_directory
 
-# this doesn't work if using docker_container
+# For some reason this doesn't work if using docker_container
 - name: "Generate SSL cert for {{ site.subdomain }}"
-  shell: "/usr/bin/docker run -i --rm --name certbot -p 443:443  -v /opt/dockerapps/{{ instance_name }}/letsencrypt:/etc/letsencrypt {{ certbot_image_name }}:{{ certbot_image_version }} certonly --staging --standalone --non-interactive --agree-tos --email {{ my_email }} -d {{ site.subdomain }}.{{ domain }}"
+  shell: "/usr/bin/docker run -i --rm --name certbot -p 443:443  -v /opt/dockerapps/{{ instance_name }}/letsencrypt:/etc/letsencrypt {{ certbot_image_name }}:{{ certbot_image_version }} certonly --standalone --non-interactive --agree-tos --email {{ my_email }} -d {{ site.subdomain }}.{{ domain }}"
   when: not certs_directory.stat.exists
+
