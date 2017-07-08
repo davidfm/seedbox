@@ -1,0 +1,12 @@
+- include: install_apache.yml
+- include: install_lets_encrypt.yml
+- include: generate_certificate.yml
+  with_items: "{{ sites }}"
+  loop_control:
+    loop_var: site
+- include: site_config.yml
+  with_items: "{{ sites }}"
+  loop_control:
+    loop_var: site
+- include: cert_renewals_cron.yml
+- include: startup.yml

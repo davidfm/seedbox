@@ -1,0 +1,5 @@
+- name: "Start Apache"
+  service:
+    name: "{{ instance_name }}.service"
+    state: restarted
+    enabled: yes

@@ -1,0 +1,9 @@
+instance_name: apache
+
+apache_image_name: httpd
+apache_image_version: 2.4.25
+
+apache_server_admin: mememe
+
+certbot_image_name: certbot/certbot
+certbot_image_version: latest
