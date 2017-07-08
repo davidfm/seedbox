@@ -1,0 +1,15 @@
+- hosts: seedbox
+  roles:
+  - { role: users/limited_user,
+      user: "{{ common_user }}",
+    }
+  - { role: services/plex,
+      username: "{{ common_user.username }}",
+      group: "{{ common_user.group }}"
+    }
+  - services/docker
+  - { role: services/transmission,
+      uid: "{{ common_user.uid }}",
+      gid: "{{ common_user.gid }}"
+    }
+  - services/apache
