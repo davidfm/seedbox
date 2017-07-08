@@ -1,2 +1,0 @@
-dependencies:
-- { role: users/limited_user, user: "{{ media_user }}" }
