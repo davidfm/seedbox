@@ -11,4 +11,5 @@ services:
       - /opt/dockerapps/{{ instance_name }}/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro,z
       - /opt/dockerapps/{{ instance_name }}/sites-enabled/:/usr/local/apache2/conf/sites-enabled/:ro,z
       - /opt/dockerapps/{{ instance_name }}/letsencrypt/:/etc/letsencrypt/:ro,z
-      - /opt/dockerapps/{{ instance_name }}/.htpasswd/:/usr/local/apache2/htpasswd/:ro,z
+      - /opt/dockerapps/{{ instance_name }}/.htpasswd/:/usr/local/apache2/.htpasswd/:ro,z
+    network_mode: bridge
