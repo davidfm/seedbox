@@ -5,5 +5,5 @@
   with_items:
     - docker
     - docker-common
-    - dokcer-selinux
+    - docker-selinux
     - docker-engine
